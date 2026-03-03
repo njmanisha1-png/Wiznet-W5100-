@@ -1,0 +1,166 @@
+import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-home',
+templateUrl: './home.component.html',
+styleUrls: ['./home.component.css']
+})
+export class HomeComponent {
+title = "Welcome to Cute Doll Store 🧸💖";
+}
+
+<div class="hero">  
+  <h1>{{title}}</h1>  
+  <p>Beautiful Dolls for Everyone</p>  
+  <button routerLink="/dolls">Shop Now</button>  
+</div>  
+.hero{  
+  text-align:center;  
+  padding:60px;  
+  background:linear-gradient(to right,#ff9ecf,#ffc0cb);  
+  color:white;  
+}  button{
+padding:10px 20px;
+background:white;
+color:#ff1493;
+border:none;
+border-radius:20px;
+font-weight:bold;
+}
+import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-dolls',
+templateUrl: './dolls.component.html',
+styleUrls: ['./dolls.component.css']
+})
+export class DollsComponent {
+
+dolls = [
+{ name: "Barbie Doll", price: 999, image: "assets/dolls/barbie.jpg", rating: 4 },
+{ name: "Teddy Bear Doll", price: 599, image: "assets/dolls/teddy.jpg", rating: 5 },
+{ name: "Baby Doll", price: 799, image: "assets/dolls/baby.jpg", rating: 3 },
+{ name: "Princess Doll", price: 1299, image: "assets/dolls/princess.jpg", rating: 5 },
+{ name: "Cartoon Doll", price: 499, image: "assets/dolls/cartoon.jpg", rating: 4 },
+{ name: "Soft Plush Doll", price: 699, image: "assets/dolls/plush.jpg", rating: 5 }
+];
+
+addToCart(doll:any){
+alert(doll.name + " Added to Cart 🛒");
+}
+}
+
+<div class="container">  
+  <div class="card" *ngFor="let doll of dolls">  
+    <img [src]="doll.image">  
+    <h3>{{doll.name}}</h3>  
+    <p>₹{{doll.price}}</p>  <span *ngFor="let star of [1,2,3,4,5]">  
+  <span [style.color]="star <= doll.rating ? 'gold' : 'gray'">★</span>  
+</span>  
+
+<button (click)="addToCart(doll)">Add to Cart</button>
+
+  </div>  
+</div>  
+.container{  
+  display:grid;  
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));  
+  gap:20px;  
+  padding:20px;  
+}  .card{
+background:#fff0f5;
+padding:15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+button{
+background:#ff1493;
+color:white;
+padding:8px 15px;
+border:none;
+border-radius:10px;
+}
+import { Component } from '@angular/core';
+
+@Component({
+selector: 'app-cart',
+templateUrl: './cart.component.html'
+})
+export class CartComponent {
+
+cartItems:any[] = [];
+
+getTotal(){
+return this.cartItems.reduce((total,item)=> total + item.price,0);
+}
+}
+
+<h2>Your Cart 🛒</h2>  <div *ngFor="let item of cartItems">  
+  {{item.name}} - ₹{{item.price}}  
+</div>  <h3>Total: ₹{{getTotal()}}</h3>  
+import { Component } from '@angular/core';  @Component({
+selector: 'app-order',
+templateUrl: './order.component.html',
+styleUrls: ['./order.component.css']
+})
+export class OrderComponent {
+
+order = {
+name: '',
+item: '',
+quantity: 1
+};
+
+dolls = [
+"Barbie Doll",
+"Teddy Bear Doll",
+"Baby Doll",
+"Princess Doll",
+"Cartoon Doll",
+"Soft Plush Doll"
+];
+
+placeOrder(){
+alert("Order Placed Successfully 🎉");
+}
+}
+
+<div class="order-container">  
+  <h2>Place Your Order 🛒</h2>    <form (ngSubmit)="placeOrder()">  <label>Your Name</label>  
+<input type="text" [(ngModel)]="order.name" name="name" required>  
+
+<label>Select Item</label>  
+<select [(ngModel)]="order.item" name="item" required>  
+  <option *ngFor="let doll of dolls" [value]="doll">  
+    {{doll}}  
+  </option>  
+</select>  
+
+<label>Quantity</label>  
+<input type="number" [(ngModel)]="order.quantity" name="quantity" min="1">  
+
+<button type="submit">Order Now</button>
+
+  </form>  
+</div>  
+.order-container{  
+  width:350px;  
+  margin:40px auto;  
+  padding:20px;  
+  background:#fff0f5;  
+  border-radius:15px;  
+}   
+import { FormsModule } from '@angular/forms';  
+imports: [  
+  BrowserModule,  
+  FormsModule  
+]  
