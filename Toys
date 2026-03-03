@@ -1,0 +1,241 @@
+export class HomeComponent {
+  title = "Welcome to Cute Doll Store 🧸💖";
+}
+<div class="hero">
+  <h1>{{title}}</h1>
+  <p>Beautiful Dolls for Everyone</p>
+  <button routerLink="/dolls">Shop Now</button>
+</div>
+.hero{
+  text-align:center;
+  padding:60px;
+  background:linear-gradient(to right,#ff9ecf,#ffc0cb);
+  color:white;
+}
+button{
+  padding:10px 20px;
+  background:white;
+  color:#ff1493;
+  border:none;
+  border-radius:20px;
+  font-weight:bold;
+}
+export class DollsComponent {
+
+  dolls = [
+    { name: "Barbie Doll", price: 999, image: "assets/dolls/barbie.jpg", rating: 4 },
+    { name: "Teddy Bear Doll", price: 599, image: "assets/dolls/teddy.jpg", rating: 5 },
+    { name: "Baby Doll", price: 799, image: "assets/dolls/baby.jpg", rating: 3 },
+    { name: "Princess Doll", price: 1299, image: "assets/dolls/princess.jpg", rating: 5 },
+    { name: "Cartoon Doll", price: 499, image: "assets/dolls/cartoon.jpg", rating: 4 },
+    { name: "Soft Plush Doll", price: 699, image: "assets/dolls/plush.jpg", rating: 5 }
+  ];
+
+  cart: any[] = [];
+
+  addToCart(doll:any){
+    this.cart.push(doll);
+    alert("Added to Cart!");
+  }
+}
+<div class="container">
+  <div class="card" *ngFor="let doll of dolls">
+    <img [src]="doll.image">
+    <h3>{{doll.name}}</h3>
+    <p>₹{{doll.price}}</p>
+
+    ⭐ Rating:
+    <span *ngFor="let star of [1,2,3,4,5]">
+      <span [style.color]="star <= doll.rating ? 'gold' : 'gray'">★</span>
+    </span>
+
+    <button (click)="addToCart(doll)">Add to Cart</button>
+  </div>
+</div>
+.container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:20px;
+}
+.card{
+  background:#fff0f5;
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+}
+button{
+  background:#ff1493;
+  color:white;
+  padding:8px 15px;
+  border:none;
+  border-radius:10px;
+}
+export class CartComponent {
+  cartItems:any[] = [];
+
+  getTotal(){
+    return this.cartItems.reduce((total,item)=> total + item.price,0);
+  }
+}
+<h2>Your Cart 🛒</h2>
+
+<div *ngFor="let item of cartItems">
+  {{item.name}} - ₹{{item.price}}
+</div>
+
+<h3>Total: ₹{{getTotal()}}</h3>
+<div class="form">
+  <h2>Login</h2>
+  <input type="text" placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button>Login</button>
+</div>
+<div class="form">
+  <h2>Register</h2>
+  <input type="text" placeholder="Username">
+  <input type="email" placeholder="Email">
+  <input type="password" placeholder="Password">
+  <button>Register</button>
+</div>
+.form{
+  width:300px;
+  margin:50px auto;
+  text-align:center;
+}
+input{
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:8px;
+}
+button{
+  background:#ff69b4;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+}
+grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+const routes: Routes = [
+ { path:'', component:HomeComponent },
+ { path:'dolls', component:DollsComponent },
+ { path:'cart', component:CartComponent },
+ { path:'login', component:LoginComponent },
+ { path:'register', component:RegisterComponent }
+];
+export class OrderComponent {
+
+  order = {
+    name: '',
+    item: '',
+    quantity: 1
+  };
+
+  dolls = [
+    "Barbie Doll",
+    "Teddy Bear Doll",
+    "Baby Doll",
+    "Princess Doll",
+    "Cartoon Doll",
+    "Soft Plush Doll"
+  ];
+
+  placeOrder(){
+    alert("Order Placed Successfully! 🎉");
+  }
+}
+<div class="order-container">
+  <h2>Place Your Order 🛒</h2>
+
+  <form (ngSubmit)="placeOrder()">
+    
+    <label>Your Name</label>
+    <input type="text" [(ngModel)]="order.name" name="name" required>
+
+    <label>Select Item</label>
+    <select [(ngModel)]="order.item" name="item" required>
+      <option *ngFor="let doll of dolls" [value]="doll">
+        {{doll}}
+      </option>
+    </select>
+
+    <label>Quantity</label>
+    <input type="number" [(ngModel)]="order.quantity" name="quantity" min="1">
+
+    <button type="submit">Order Now</button>
+  </form>
+</div>
+.order-container{
+  width:350px;
+  margin:40px auto;
+  padding:20px;
+  background:#fff0f5;
+  border-radius:15px;
+  box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+label{
+  display:block;
+  margin-top:10px;
+  font-weight:bold;
+}
+input, select{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+}
+button{
+  margin-top:15px;
+  width:100%;
+  padding:10px;
+  background:#ff1493;
+  color:white;
+  border:none;
+  border-radius:10px;
+}
+<div class="delivery">
+  <h3>🚚 Delivery Information</h3>
+  <p>✔ Free Delivery in Mumbai</p>
+  <p>✔ Delivery within 3-5 Working Days</p>
+  <p>✔ Cash on Delivery Available</p>
+</div>
+.delivery{
+  margin-top:20px;
+  background:white;
+  padding:10px;
+  border-radius:10px;
+}
+<div class="reviews">
+  <h3>⭐ Customer Reviews</h3>
+
+  <div class="review-card">
+    <p>🌸 Very cute dolls! My sister loved Barbie Doll.</p>
+    ⭐⭐⭐⭐⭐
+  </div>
+
+  <div class="review-card">
+    <p>🧸 Soft plush doll is very soft and beautiful.</p>
+    ⭐⭐⭐⭐
+  </div>
+</div>
+.reviews{
+  margin-top:20px;
+}
+.review-card{
+  background:#ffe4ec;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+}
+@media(max-width:600px){
+  .order-container{
+    width:90%;
+  }
+}
