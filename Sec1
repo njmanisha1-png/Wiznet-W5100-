@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  rating: number;
+  sale?: string;
+}
+products = [
+  {
+    id: 1,
+    name: "Sunscreen SPF 50",
+    price: 399,
+    image: "assets/sunscreen.jpg",
+    rating: 4,
+    sale: "Buy 1 Get 1"
+  },
+  {
+    id: 2,
+    name: "Lip Balm",
+    price: 199,
+    image: "assets/lipbalm.jpg",
+    rating: 5
+  },
+  {
+    id: 3,
+    name: "Hair Serum",
+    price: 499,
+    image: "assets/hairserum.jpg",
+    rating: 4
+  },
+  {
+    id: 4,
+    name: "Body Lotion",
+    price: 349,
+    image: "assets/bodylotion.jpg",
+    rating: 3
+  }
+];
+<div class="product-container">
+  <div class="card" *ngFor="let item of products">
+    <img [src]="item.image" alt="{{item.name}}">
+    <h3>{{item.name}}</h3>
+    <p>₹ {{item.price}}</p>
+
+    <div class="rating">
+      <span *ngFor="let star of [1,2,3,4,5]">
+        <i class="star"
+           [class.filled]="star <= item.rating">★</i>
+      </span>
+    </div>
+
+    <p class="sale" *ngIf="item.sale">{{item.sale}}</p>
+
+    <button (click)="addToCart(item)">Order Now</button>
+  </div>
+</div>
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.star {
+  font-size: 20px;
+  color: gray;
+}
+
+.filled {
+  color: gold;
+}
+
+.sale {
+  color: red;
+  font-weight: bold;
+}
+cart: any[] = [];
+
+addToCart(product: any) {
+  this.cart.push(product);
+  alert("Product Added to Cart");
+}
+<div class="login-box">
+  <h2>Login</h2>
+  <input type="email" placeholder="Enter Email">
+  <input type="password" placeholder="Enter Password">
+  <button>Login</button>
+</div>
+<h2>Contact Us</h2>
+<input type="text" placeholder="Your Name">
+<input type="email" placeholder="Your Email">
+<textarea placeholder="Message"></textarea>
+<button>Send</button>
+orders = [
+  { product: "Sunscreen", status: "Shipping" },
+  { product: "Lip Balm", status: "Delivered" }
+];
+<h2>My Orders</h2>
+<div *ngFor="let order of orders">
+  <p>{{order.product}} - {{order.status}}</p>
+</div>
+<p>{{item.price | currency:'INR'}}</p>
